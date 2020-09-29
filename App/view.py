@@ -50,8 +50,12 @@ def printMenu():
     print("Bienvenido")
     print("1- Inicializar Analizador")
     print("2- Cargar información de accidentes")
-    print("3- Requerimento 1")
-    print("4- Requerimento 2")
+    print("3- Requerimento 1 (Conocer los accidentes en una fecha)")
+    print("4- Requerimento 2 (Conocer los accidentes anteriores a una fecha)")
+    print("5- Requerimento 3 (Conocer los accidentes en un rango de fechas)")
+    print("6- Requerimento 4 (Conocer el estado con mas accidentes)")
+    print("7- Requerimento 5 (Conocer los accidentes por rango de horas)")
+    print("8- Requerimento 6 (Conocer la zona geográfica mas accidentada)")
     print("0- Salir")
     print("*******************************************")
 
@@ -72,10 +76,22 @@ while True:
         print("\nCargando información de crimenes ....")
 
     elif int(inputs[0]) == 3:
-        print("\nBuscando crimenes en un rango de fechas: ")
+        print("\nRequerimiento No 1 del reto 3: ")
 
     elif int(inputs[0]) == 4:
-        print("\nRequerimiento No 1 del reto 3: ")
+        print("\nRequerimiento No 2 del reto 3: ")
+
+    elif int(inputs[0]) == 5:
+        print("\nRequerimiento No 3 del reto 3: ")
+
+    elif int(inputs[0]) == 6:
+        print("\nRequerimiento No 4 del reto 3: ")
+
+    elif int(inputs[0]) == 7:
+        print("\nRequerimiento No 5 del reto 3: ")
+
+    elif int(inputs[0]) == 8:
+        print("\nRequerimiento No 6 del reto 3: ")
 
     else:
         sys.exit(0)
