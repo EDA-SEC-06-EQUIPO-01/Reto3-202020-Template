@@ -120,6 +120,9 @@ def R1(analyzer, impDate):
 
 
 def R3(analyzer, initialDate, finalDate):
-    initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    try:
+        initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    except:
+        pass
     finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
     return model.R3_AccidentesEntreFechas(analyzer, initialDate, finalDate)

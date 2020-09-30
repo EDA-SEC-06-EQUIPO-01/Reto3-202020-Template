@@ -60,10 +60,10 @@ def addAccident(analyzer, accident):
 def updateDateIndex(map, accident):
     occurreddate = accident['OCCURRED_ON_DATE']
     accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
-    entry = om.get(map, accdate.date())
+    entry = om.get(map, accdate)
     if entry is None:
         datentry = newDataEntry(accident)
-        om.put(map, accdate.date(), datentry)
+        om.put(map, accdate, datentry)
     else:
         datentry = me.getValue(entry)
     addDateIndex(datentry, accident)
@@ -140,7 +140,12 @@ def maxKey(analyzer):
 
 
 def R1_AccidentesEnFecha(analyzer, impDate):
-    return lt.size(om.get(analyzer['dateIndex'], impDate))
+    lst = om.get(analyzer['dateIndex'], impDate)
+
+    try:
+        return lt.size(lst)
+    except:
+        return 0
 
 
 def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
@@ -148,7 +153,8 @@ def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
     ite = it.newIterator(lst)
     tot = 0
     while it.hasNext(ite):
-        tot += lt.size(it.next(ite))
+        lt_next = it.next(ite)['lstaccidents']
+        tot += lt.size(lt_next)
     return tot
 
 # ==============================
