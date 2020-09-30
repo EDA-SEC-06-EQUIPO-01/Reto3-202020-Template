@@ -21,6 +21,7 @@
  """
 
 import sys
+
 import config
 from App import controller
 assert config
@@ -74,24 +75,45 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("\nCargando información de crimenes ....")
+        controller.loadData(cont, crimefile)
+        print('Crimenes cargados: ' + str(controller.crimesSize(cont)))
+        print('Altura del arbol: ' + str(controller.indexHeight(cont)))
+        print('Elementos en el arbol: ' + str(controller.indexSize(cont)))
+        print('Menor Llave: ' + str(controller.minKey(cont)))
+        print('Mayor Llave: ' + str(controller.maxKey(cont)))
 
     elif int(inputs[0]) == 3:
-        print("\nRequerimiento No 1 del reto 3: ")
+        print("\nRequerimiento No 1 del reto 3: \n")
+        impDate = input(
+            "Digite la fecha de interés; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        print(
+            f"Ocurrieron {controller.R1(cont, impDate)} accidentes en la fecha {impDate}")
 
     elif int(inputs[0]) == 4:
-        print("\nRequerimiento No 2 del reto 3: ")
+        print("\nRequerimiento No 2 del reto 3: \n")
+        finalDate = input(
+            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        minDate = controller.minKey(cont)
+        print(
+            f"Ocurrieron {controller.R3(cont, minDate, finalDate)} accidentes entre la fecha {minDate} (primera fecha con registro) y la fecha {finalDate}")
 
     elif int(inputs[0]) == 5:
-        print("\nRequerimiento No 3 del reto 3: ")
+        print("\nRequerimiento No 3 del reto 3: \n")
+        initialDate = input(
+            "Digite la fecha inicial; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        finalDate = input(
+            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        print(
+            f"Ocurrieron {controller.R3(cont, initialDate, finalDate)} accidentes entre la fecha {initialDate} y la fecha {finalDate}")
 
     elif int(inputs[0]) == 6:
-        print("\nRequerimiento No 4 del reto 3: ")
+        print("\nRequerimiento No 4 del reto 3: \n")
 
     elif int(inputs[0]) == 7:
-        print("\nRequerimiento No 5 del reto 3: ")
+        print("\nRequerimiento No 5 del reto 3: \n")
 
     elif int(inputs[0]) == 8:
-        print("\nRequerimiento No 6 del reto 3: ")
+        print("\nRequerimiento No 6 del reto 3: \n")
 
     else:
         sys.exit(0)

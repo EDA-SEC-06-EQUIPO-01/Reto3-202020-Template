@@ -19,6 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  """
+from datetime import date
 import config
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
@@ -51,7 +52,7 @@ def newAnalyzer():
 
 
 def addAccident(analyzer, accident):
-    lt.addLast(analyzer['accident'], accident)
+    lt.addLast(analyzer['accidents'], accident)
     updateDateIndex(analyzer['dateIndex'], accident)
     return analyzer
 
@@ -86,7 +87,8 @@ def addDateIndex(datentry, accident):
 
 def newDataEntry(accident):
     entry = {}
-    entry['offenseIndex'] = m.newMap(numelements=30, maptype='PROBING', comparefunction=compareOffenses)]
+    entry['offenseIndex'] = m.newMap(
+        numelements=30, maptype='PROBING', comparefunction=compareOffenses)
     entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
     return entry
 
@@ -95,14 +97,64 @@ def newOffenseEntry(offensegrp, accident):
     ofentry = {}
     ofentry['offense'] = offensegrp
     ofentry['lstoffenses'] = lt.newList('SINGLE_LINKED', compareOffenses)
+    return ofentry
+
 # ==============================
 # Funciones de consulta
 # ==============================
 
 
+def crimesSize(analyzer):
+    """
+    Número de crimenes
+    """
+    return lt.size(analyzer['accidents'])
+
+
+def indexHeight(analyzer):
+    """
+    Altura del arbol
+    """
+    return om.height(analyzer['dateIndex'])
+
+
+def indexSize(analyzer):
+    """
+    Numero de elementos en el indice
+    """
+    return om.size(analyzer['dateIndex'])
+
+
+def minKey(analyzer):
+    """
+    Llave mas pequena
+    """
+    return om.minKey(analyzer['dateIndex'])
+
+
+def maxKey(analyzer):
+    """
+    Llave mas grande
+    """
+    return om.maxKey(analyzer['dateIndex'])
+
+
+def R1_AccidentesEnFecha(analyzer, impDate):
+    return lt.size(om.get(analyzer['dateIndex'], impDate))
+
+
+def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
+    lst = om.values(analyzer['dateIndex'], iniDate, finalDate)
+    ite = it.newIterator(lst)
+    tot = 0
+    while it.hasNext(ite):
+        tot += lt.size(it.next(ite))
+    return tot
+
 # ==============================
 # Funciones de Comparacion
 # ==============================
+
 
 def compareIds(id1, id2):
     if id1 == id2:

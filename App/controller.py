@@ -71,9 +71,55 @@ def loadData(analyzer, crimesfile):
     input_file = csv.DictReader(open(crimesfile, encoding="utf-8"),
                                 delimiter=",")
     for crime in input_file:
-        model.addCrime(analyzer, crime)
+        model.addAccident(analyzer, crime)
     return analyzer
 
 # ___________________________________________________
 #  Funciones para consultas
 # ___________________________________________________
+
+
+def crimesSize(analyzer):
+    """
+    Numero de crimenes leidos
+    """
+    return model.crimesSize(analyzer)
+
+
+def indexHeight(analyzer):
+    """
+    Altura del indice (arbol)
+    """
+    return model.indexHeight(analyzer)
+
+
+def indexSize(analyzer):
+    """
+    Numero de nodos en el arbol
+    """
+    return model.indexSize(analyzer)
+
+
+def minKey(analyzer):
+    """
+    La menor llave del arbol
+    """
+    return model.minKey(analyzer)
+
+
+def maxKey(analyzer):
+    """
+    La mayor llave del arbol
+    """
+    return model.maxKey(analyzer)
+
+
+def R1(analyzer, impDate):
+    impDate = datetime.datetime.strptime(impDate, '%Y-%m-%d')
+    return model.R1_AccidentesEnFecha(analyzer, impDate)
+
+
+def R3(analyzer, initialDate, finalDate):
+    initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
+    return model.R3_AccidentesEntreFechas(analyzer, initialDate, finalDate)
