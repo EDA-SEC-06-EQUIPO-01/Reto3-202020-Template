@@ -40,9 +40,61 @@ es decir contiene los modelos con los datos en memoria
 # -----------------------------------------------------
 
 
+def newAnalyzer():
+    analyzer = {}
+    analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareIds)
+    analyzer['dateIndex'] = om.newMap(
+        omaptype='RBT', comparefunction=compareDates)
+    return analyzer
+
 # Funciones para agregar informacion al catalogo
 
 
+def addAccident(analyzer, accident):
+    lt.addLast(analyzer['accident'], accident)
+    updateDateIndex(analyzer['dateIndex'], accident)
+    return analyzer
+
+
+def updateDateIndex(map, accident):
+    occurreddate = accident['OCCURRED_ON_DATE']
+    accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
+    entry = om.get(map, accdate.date())
+    if entry is None:
+        datentry = newDataEntry(accident)
+        om.put(map, accdate.date(), datentry)
+    else:
+        datentry = me.getValue(entry)
+    addDateIndex(datentry, accident)
+    return map
+
+
+def addDateIndex(datentry, accident):
+    lst = datentry['lstaccidents']
+    lt.addLast(lst, accident)
+    offenseIndex = datentry['offenseIndex']
+    offentry = m.get(offenseIndex, accident['OFFENSE_CODE_GROUP'])
+    if offentry is None:
+        entry = newOffenseEntry(accident['OFFENSE_CODE_GROUP'], accident)
+        lt.addLast(entry['lstoffenses'], accident)
+        m.put(offenseIndex, accident['OFFENSE_CODE_GROUP'], entry)
+    else:
+        entry = me.getValue(offentry)
+        lt.addLast(entry['lstoffenses'], accident)
+    return datentry
+
+
+def newDataEntry(accident):
+    entry = {}
+    entry['offenseIndex'] = m.newMap(numelements=30, maptype='PROBING', comparefunction=compareOffenses)]
+    entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
+    return entry
+
+
+def newOffenseEntry(offensegrp, accident):
+    ofentry = {}
+    ofentry['offense'] = offensegrp
+    ofentry['lstoffenses'] = lt.newList('SINGLE_LINKED', compareOffenses)
 # ==============================
 # Funciones de consulta
 # ==============================
@@ -51,3 +103,30 @@ es decir contiene los modelos con los datos en memoria
 # ==============================
 # Funciones de Comparacion
 # ==============================
+
+def compareIds(id1, id2):
+    if id1 == id2:
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
+
+
+def compareDates(date1, date2):
+    if date1 == date2:
+        return 0
+    elif date1 > date2:
+        return 1
+    else:
+        return -1
+
+
+def compareOffenses(off1, off2):
+    offense = me.getKey(off2)
+    if off1 == offense:
+        return 0
+    elif off1 > offense:
+        return 1
+    else:
+        return -1
