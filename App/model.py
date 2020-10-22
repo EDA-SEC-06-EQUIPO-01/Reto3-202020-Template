@@ -147,6 +147,8 @@ def R1_AccidentesEnFecha(analyzer, impDate):
     except:
         return 0
 
+# El R2 utiliza el R3.
+
 
 def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
     lst = om.values(analyzer['dateIndex'], iniDate, finalDate)
@@ -156,6 +158,7 @@ def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
         lt_next = it.next(ite)['lstaccidents']
         tot += lt.size(lt_next)
     return tot
+
 
 # ==============================
 # Funciones de Comparacion
