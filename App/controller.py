@@ -63,12 +63,12 @@ def loadData(analyzer, accidentsfile):
     return analyzer
 
 
-def loadData(analyzer, crimesfile):
+def loadData(analyzer, accfile):
     """
     Carga los datos de los archivos CSV en el modelo
     """
-    crimesfile = cf.data_dir + crimesfile
-    input_file = csv.DictReader(open(crimesfile, encoding="utf-8"),
+    accfile = cf.data_dir + accfile
+    input_file = csv.DictReader(open(accfile, encoding="utf-8"),
                                 delimiter=",")
     for crime in input_file:
         model.addAccident(analyzer, crime)

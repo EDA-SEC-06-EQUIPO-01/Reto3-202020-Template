@@ -58,7 +58,7 @@ def addAccident(analyzer, accident):
 
 
 def updateDateIndex(map, accident):
-    occurreddate = accident['OCCURRED_ON_DATE']
+    occurreddate = accident['Start_Time']
     accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
     entry = om.get(map, accdate)
     if entry is None:
@@ -73,12 +73,12 @@ def updateDateIndex(map, accident):
 def addDateIndex(datentry, accident):
     lst = datentry['lstaccidents']
     lt.addLast(lst, accident)
-    offenseIndex = datentry['offenseIndex']
-    offentry = m.get(offenseIndex, accident['OFFENSE_CODE_GROUP'])
+    accsev = datentry['accSeverity']
+    offentry = m.get(accsev, accident['Severity'])
     if offentry is None:
-        entry = newOffenseEntry(accident['OFFENSE_CODE_GROUP'], accident)
+        entry = newOffenseEntry(accident['Severity'], accident)
         lt.addLast(entry['lstoffenses'], accident)
-        m.put(offenseIndex, accident['OFFENSE_CODE_GROUP'], entry)
+        m.put(accsev, accident['Severity'], entry)
     else:
         entry = me.getValue(offentry)
         lt.addLast(entry['lstoffenses'], accident)
@@ -87,7 +87,7 @@ def addDateIndex(datentry, accident):
 
 def newDataEntry(accident):
     entry = {}
-    entry['offenseIndex'] = m.newMap(
+    entry['accSeverity'] = m.newMap(
         numelements=30, maptype='PROBING', comparefunction=compareOffenses)
     entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
     return entry
