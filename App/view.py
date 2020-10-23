@@ -24,6 +24,7 @@ import sys
 
 import config
 from App import controller
+
 assert config
 
 """
@@ -38,7 +39,7 @@ operación seleccionada.
 # ___________________________________________________
 
 
-accfile = 'us_accidents_small.csv'
+accfile = "us_accidents_small.csv"
 
 # ___________________________________________________
 #  Menu principal
@@ -66,7 +67,7 @@ Menu principal
 """
 while True:
     printMenu()
-    inputs = input('Seleccione una opción para continuar\n>')
+    inputs = input("Seleccione una opción para continuar\n>")
 
     if int(inputs[0]) == 1:
         print("\nInicializando....")
@@ -76,37 +77,48 @@ while True:
     elif int(inputs[0]) == 2:
         print("\nCargando información de accidentes ....")
         controller.loadData(cont, accfile)
-        print('Crimenes cargados: ' + str(controller.crimesSize(cont)))
-        print('Altura del arbol: ' + str(controller.indexHeight(cont)))
-        print('Elementos en el arbol: ' + str(controller.indexSize(cont)))
-        print('Menor Llave: ' + str(controller.minKey(cont)))
-        print('Mayor Llave: ' + str(controller.maxKey(cont)))
+        print("Crimenes cargados: " + str(controller.crimesSize(cont)))
+        print("Altura del arbol: " + str(controller.indexHeight(cont)))
+        print("Elementos en el arbol: " + str(controller.indexSize(cont)))
+        print("Menor Llave: " + str(controller.minKey(cont)))
+        print("Mayor Llave: " + str(controller.maxKey(cont)))
 
     elif int(inputs[0]) == 3:
         print("\nRequerimiento No 1 del reto 3: \n")
         impDate = input(
-            "Digite la fecha de interés; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
-        impDate_p1 = impDate[:-2] + (str(int(impDate[-2:])+1) if int(
-            impDate[-2:])+1 >= 10 else "0"+str(int(impDate[-2:])+1))
+            "Digite la fecha de interés; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
+
+        impDate_p1 = impDate[:-2] + (
+            str(int(impDate[-2:]) + 1)
+            if int(impDate[-2:]) + 1 >= 10
+            else "0" + str(int(impDate[-2:]) + 1)
+        )
         print(
-            f"Ocurrieron {controller.R3(cont, impDate, impDate_p1)} accidentes en la fecha {impDate}")
+            f"Ocurrieron {controller.R3(cont, impDate, impDate_p1)} accidentes en la fecha {impDate}"
+        )
 
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: \n")
         finalDate = input(
-            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
         minDate = controller.minKey(cont)
         print(
-            f"Ocurrieron {controller.R3(cont, minDate, finalDate)} accidentes entre la fecha {minDate} (primera fecha con registro) y la fecha {finalDate}")
+            f"Ocurrieron {controller.R3(cont, minDate, finalDate)} accidentes entre la fecha {minDate} (primera fecha con registro) y la fecha {finalDate}"
+        )
 
     elif int(inputs[0]) == 5:
         print("\nRequerimiento No 3 del reto 3: \n")
         initialDate = input(
-            "Digite la fecha inicial; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+            "Digite la fecha inicial; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
         finalDate = input(
-            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+            "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
         print(
-            f"Ocurrieron {controller.R3(cont, initialDate, finalDate)} accidentes entre la fecha {initialDate} y la fecha {finalDate}")
+            f"Ocurrieron {controller.R3(cont, initialDate, finalDate)} accidentes entre la fecha {initialDate} y la fecha {finalDate}"
+        )
 
     elif int(inputs[0]) == 6:
         print("\nRequerimiento No 4 del reto 3: \n")

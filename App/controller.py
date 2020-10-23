@@ -103,11 +103,12 @@ def maxKey(analyzer):
     return model.maxKey(analyzer)
 
 
-def R3(analyzer, initialDate, finalDate):
-    try:
-        initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d")
-    except:
-        pass
+def R3(analyzer, initial_date, final_date, next_day=False):
 
-    finalDate = datetime.datetime.strptime(finalDate, "%Y-%m-%d")
-    return model.total_accidentes_entre_fechas(analyzer, initialDate, finalDate)
+    try:
+        initial_date = datetime.datetime.strptime(initial_date, "%Y-%m-%d")
+        final_date = datetime.datetime.strptime(final_date, "%Y-%m-%d")
+    except Exception as e:
+        print(e)
+
+    return model.total_accidentes_entre_fechas(analyzer, initial_date, final_date)
