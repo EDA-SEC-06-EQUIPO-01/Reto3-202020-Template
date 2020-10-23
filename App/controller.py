@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from typing import final
 import config as cf
 from App import model
 import datetime
@@ -103,12 +104,34 @@ def maxKey(analyzer):
     return model.maxKey(analyzer)
 
 
-def R3(analyzer, initial_date, final_date, next_day=False):
+def total_accidentes(*args, **kwargs):
+    """
+    the mandatory arguments are analyzer and a date
 
-    try:
-        initial_date = datetime.datetime.strptime(initial_date, "%Y-%m-%d")
-        final_date = datetime.datetime.strptime(final_date, "%Y-%m-%d")
-    except Exception as e:
-        print(e)
+    optional
+    second date
+
+    next_day
+    from_begining
+    """
+    analyzer = args[0]
+
+    if len(kwargs) > 0:
+        if kwargs.get("next_day") == True:
+            initial_date = datetime.datetime.strptime(args[1], "%Y-%m-%d")
+
+            tmp = args[1].split("-")
+            tmp[-1] = str(int(tmp[-1]) + 1)
+            final_date = "-".join(tmp)
+
+            final_date = datetime.datetime.strptime(final_date, "%Y-%m-%d")
+
+        elif kwargs.get("from_begining") == True:
+            initial_date = minKey(analyzer)
+            final_date = datetime.datetime.strptime(args[1], "%Y-%m-%d")
+
+    else:
+        initial_date = datetime.datetime.strptime(args[1], "%Y-%m-%d")
+        final_date = datetime.datetime.strptime(args[2], "%Y-%m-%d")
 
     return model.total_accidentes_entre_fechas(analyzer, initial_date, final_date)

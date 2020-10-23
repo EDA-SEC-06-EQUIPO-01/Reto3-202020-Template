@@ -88,14 +88,8 @@ while True:
         impDate = input(
             "Digite la fecha de interés; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
         )
-
-        impDate_p1 = impDate[:-2] + (
-            str(int(impDate[-2:]) + 1)
-            if int(impDate[-2:]) + 1 >= 10
-            else "0" + str(int(impDate[-2:]) + 1)
-        )
         print(
-            f"Ocurrieron {controller.R3(cont, impDate, impDate_p1)} accidentes en la fecha {impDate}"
+            f"Ocurrieron {controller.total_accidentes(cont, impDate, next_day=True)} accidentes en la fecha {impDate}"
         )
 
     elif int(inputs[0]) == 4:
@@ -103,9 +97,8 @@ while True:
         finalDate = input(
             "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
         )
-        minDate = controller.minKey(cont)
         print(
-            f"Ocurrieron {controller.R3(cont, minDate, finalDate)} accidentes entre la fecha {minDate} (primera fecha con registro) y la fecha {finalDate}"
+            f"Ocurrieron {controller.total_accidentes(cont, finalDate, from_begining=True)} accidentes entre la fecha inicial (primera fecha con registro) y la fecha {finalDate}"
         )
 
     elif int(inputs[0]) == 5:
@@ -117,7 +110,7 @@ while True:
             "Digite la fecha final; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
         )
         print(
-            f"Ocurrieron {controller.R3(cont, initialDate, finalDate)} accidentes entre la fecha {initialDate} y la fecha {finalDate}"
+            f"Ocurrieron {controller.total_accidentes(cont, initialDate, finalDate)} accidentes entre la fecha {initialDate} y la fecha {finalDate}"
         )
 
     elif int(inputs[0]) == 6:
