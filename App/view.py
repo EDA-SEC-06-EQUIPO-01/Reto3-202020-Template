@@ -127,7 +127,7 @@ while True:
             "Digite el RADIO (en millas) alrededor del centro establecido;\nTenga en cuenta que aproximadamente 1° = 69.4 millas:\n\t"))
         ans = controller.R6(cont, latitude, longitude, ratio)
         print(
-            f"El día en el que más se presentaron casos dentro del rango fue {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
+            f"El día en el que más se presentaron casos dentro del rango fue un {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
 
     else:
         sys.exit(0)

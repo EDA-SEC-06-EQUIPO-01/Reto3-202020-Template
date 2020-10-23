@@ -184,6 +184,23 @@ def total_accidentes_entre_fechas(analyzer, initial_date, final_date):
 
     return tot
 
+# Calcula el día de la semana dependiendo de la fecha "2020-10-23 -> 'viernes'"
+
+
+def dia(fecha: str) -> str:
+    #fecha: "2020-10-23"
+    dias = {1: 'lunes', 2: 'martes', 3: 'miércoles',
+            4: 'jueves', 5: 'viernes', 6: 'sábado', 0: 'domingo'}
+    y, m, d = [int(i) for i in fecha.split('-')]
+    A = -2*(y//100-20) if (y//100-20) >= 0 else -2*(y//100-20)-1
+    B = int(f"{y}"[-2:]) + int(f"{y}"[-2:])//4
+    C = -1 if ((m == 1 or m == 2) and ((int(f"{y}"[-2:]) % 4 == 0) if int(
+        f"{y}"[-2:]) != 0 else (int(f"{y}"[-2:]) % 400 == 0))) else 0
+    D = {1: 6, 2: 2, 3: 2, 4: 5, 5: 0, 6: 3,
+         7: 5, 8: 1, 9: 4, 10: 6, 11: 2, 12: 4}[m]
+    E = d
+    return dias[(A+B+C+D+E) % 7]
+
 
 def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
     def inlat(lat, lat0, gr): return lat0-gr <= lat <= lat0+gr
@@ -194,7 +211,7 @@ def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
         if inlat(float(lt_next['Start_Lat']), latitude, grades) and inlon(float(lt_next['Start_Lng']), longitude, grades):
             dt = lt_next['Start_Time'][:lt_next['Start_Time'].find(' ')]
             cont += 1
-            m.put(mp, dt, cont)
+            m.put(mp, dia(dt), cont)
     maxDate = None
     mx = 0
     for i in travel(m.keySet(mp)):
