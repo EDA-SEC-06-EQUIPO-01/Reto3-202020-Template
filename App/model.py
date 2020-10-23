@@ -27,6 +27,7 @@ from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
 from DISClib.ADT import map as m
 import datetime
+
 assert config
 
 """
@@ -43,23 +44,37 @@ es decir contiene los modelos con los datos en memoria
 
 def newAnalyzer():
     analyzer = {}
-    analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareIds)
-    analyzer['dateIndex'] = om.newMap(
-        omaptype='RBT', comparefunction=compareDates)
+    analyzer["accidents"] = lt.newList("SINGLE_LINKED", compareIds)
+    analyzer["dateIndex"] = om.newMap(
+        omaptype="RBT", comparefunction=compareDates)
     return analyzer
+
 
 # Funciones para agregar informacion al catalogo
 
 
+def travel(lista: list, parameter=None):
+
+    iter = it.newIterator(lista)
+
+    while it.hasNext(iter):
+        node = it.next(iter)
+
+        if parameter:
+            yield node[parameter]
+        else:
+            yield node
+
+
 def addAccident(analyzer, accident):
-    lt.addLast(analyzer['accidents'], accident)
-    updateDateIndex(analyzer['dateIndex'], accident)
+    lt.addLast(analyzer["accidents"], accident)
+    updateDateIndex(analyzer["dateIndex"], accident)
     return analyzer
 
 
 def updateDateIndex(map, accident):
-    occurreddate = accident['Start_Time']
-    accdate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
+    occurreddate = accident["Start_Time"]
+    accdate = datetime.datetime.strptime(occurreddate, "%Y-%m-%d %H:%M:%S")
     entry = om.get(map, accdate)
     if entry is None:
         datentry = newDataEntry(accident)
@@ -71,33 +86,35 @@ def updateDateIndex(map, accident):
 
 
 def addDateIndex(datentry, accident):
-    lst = datentry['lstaccidents']
+    lst = datentry["lstaccidents"]
     lt.addLast(lst, accident)
-    accsev = datentry['accSeverity']
-    offentry = m.get(accsev, accident['Severity'])
+    accsev = datentry["accSeverity"]
+    offentry = m.get(accsev, accident["Severity"])
     if offentry is None:
-        entry = newOffenseEntry(accident['Severity'], accident)
-        lt.addLast(entry['lstoffenses'], accident)
-        m.put(accsev, accident['Severity'], entry)
+        entry = newOffenseEntry(accident["Severity"], accident)
+        lt.addLast(entry["lstoffenses"], accident)
+        m.put(accsev, accident["Severity"], entry)
     else:
         entry = me.getValue(offentry)
-        lt.addLast(entry['lstoffenses'], accident)
+        lt.addLast(entry["lstoffenses"], accident)
     return datentry
 
 
 def newDataEntry(accident):
     entry = {}
-    entry['accSeverity'] = m.newMap(
-        numelements=30, maptype='PROBING', comparefunction=compareOffenses)
-    entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
+    entry["accSeverity"] = m.newMap(
+        numelements=30, maptype="PROBING", comparefunction=compareOffenses
+    )
+    entry["lstaccidents"] = lt.newList("SINGLE_LINKED", compareDates)
     return entry
 
 
 def newOffenseEntry(offensegrp, accident):
     ofentry = {}
-    ofentry['offense'] = offensegrp
-    ofentry['lstoffenses'] = lt.newList('SINGLE_LINKED', compareOffenses)
+    ofentry["offense"] = offensegrp
+    ofentry["lstoffenses"] = lt.newList("SINGLE_LINKED", compareOffenses)
     return ofentry
+
 
 # ==============================
 # Funciones de consulta
@@ -108,71 +125,82 @@ def crimesSize(analyzer):
     """
     Número de crimenes
     """
-    return lt.size(analyzer['accidents'])
+    return lt.size(analyzer["accidents"])
 
 
 def indexHeight(analyzer):
     """
     Altura del arbol
     """
-    return om.height(analyzer['dateIndex'])
+    return om.height(analyzer["dateIndex"])
 
 
 def indexSize(analyzer):
     """
     Numero de elementos en el indice
     """
-    return om.size(analyzer['dateIndex'])
+    return om.size(analyzer["dateIndex"])
 
 
 def minKey(analyzer):
     """
     Llave mas pequena
     """
-    return om.minKey(analyzer['dateIndex'])
+    return om.minKey(analyzer["dateIndex"])
 
 
 def maxKey(analyzer):
     """
     Llave mas grande
     """
-    return om.maxKey(analyzer['dateIndex'])
+    return om.maxKey(analyzer["dateIndex"])
 
 
 # En el R1 y R2 se utiliza el R3.
 
 
-def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
-    lst = om.values(analyzer['dateIndex'], iniDate, finalDate)
-    ite = it.newIterator(lst)
+def get_range(*args, **kwargs):
+    """
+    first param analyzer
+
+    the other parameters are
+
+    initial_date
+    final date
+    """
+    analyzer = args[0]
+
+    initial_date, final_date = args[1:]
+
+    return om.values(analyzer["dateIndex"], initial_date, final_date)
+
+
+def total_accidentes_entre_fechas(analyzer, initial_date, final_date):
+    lst = get_range(analyzer, initial_date, final_date)
+
     tot = 0
-    while it.hasNext(ite):
-        lt_next = it.next(ite)['lstaccidents']
-        tot += lt.size(lt_next)
+    for item in travel(lst, "lstaccidents"):
+        tot += lt.size(item)
+
     return tot
 
 
 def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
-    ite = it.newIterator(analyzer['accidents'])
-    inlat = lambda lat, lat0, gr: lat0-gr <= lat <= lat0+gr
-    inlon = lambda lon, lon0, gr: lon0-gr <= lon <= lon0+gr
-    mp = m.newMap(comparefunction=lambda x, y: x > y)
+    def inlat(lat, lat0, gr): return lat0-gr <= lat <= lat0+gr
+    def inlon(lon, lon0, gr): return lon0-gr <= lon <= lon0+gr
+    mp = m.newMap(comparefunction=lambda x, y: 0 if x == y['key'] else 1)
     cont = 0
-    while it.hasNext(ite):
-        lt_next = it.next(ite)
-        # print("-"*50)
-        # print(
-        # f"\t{latitude-grades} <= {float(lt_next['Start_Lat'])} <= {latitude+grades}? -> {inlat(float(lt_next['Start_Lat']), latitude, grades)}")
-        # print(
-        # f"\t{longitude-grades} <= {float(lt_next['Start_Lng'])} <= {longitude+grades}? -> {inlat(float(lt_next['Start_Lng']), longitude, grades)}")
-        # print("-"*50)
+    for lt_next in travel(analyzer['accidents']):
         if inlat(float(lt_next['Start_Lat']), latitude, grades) and inlon(float(lt_next['Start_Lng']), longitude, grades):
             dt = lt_next['Start_Time'][:lt_next['Start_Time'].find(' ')]
             cont += 1
             m.put(mp, dt, cont)
-    keys = it.newIterator(m.keySet(mp))
-    maxDate = max(keys, key=lambda x: 0 if m.get(
-        mp, x) is None else m.get(mp, x))
+    maxDate = None
+    mx = 0
+    for i in travel(m.keySet(mp)):
+        if (False if m.get(mp, i) is None else m.get(mp, i)['value'] > mx):
+            mx = int(m.get(mp, i)['value'])
+            maxDate = i
     return maxDate, cont
 
 # ==============================
