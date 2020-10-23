@@ -174,8 +174,8 @@ def get_range(*args, **kwargs):
     return om.values(analyzer["dateIndex"], initial_date, final_date)
 
 
-def total_accidentes_entre_fechas(analyzer, iniDate, finalDate):
-    lst = get_range(analyzer, iniDate, finalDate)
+def total_accidentes_entre_fechas(analyzer, initial_date, final_date):
+    lst = get_range(analyzer, initial_date, final_date)
 
     tot = 0
     for item in travel(lst, "lstaccidents"):
