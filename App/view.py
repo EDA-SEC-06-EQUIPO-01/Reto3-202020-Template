@@ -121,6 +121,13 @@ while True:
 
     elif int(inputs[0]) == 8:
         print("\nRequerimiento No 6 del reto 3: \n")
+        latitude = float(input("Digite la LATITUD del punto central:\n\t"))
+        longitude = float(input("Digite la LONGITUD del punto central:\n\t"))
+        ratio = float(input(
+            "Digite el RADIO (en millas) alrededor del centro establecido;\nTenga en cuenta que aproximadamente 1° = 69.4 millas:\n\t"))
+        ans = controller.R6(cont, latitude, longitude, ratio)
+        print(
+            f"El día en el que más se presentaron casos dentro del rango fue {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
 
     else:
         sys.exit(0)

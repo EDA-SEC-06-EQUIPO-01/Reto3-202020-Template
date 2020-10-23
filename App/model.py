@@ -45,7 +45,8 @@ es decir contiene los modelos con los datos en memoria
 def newAnalyzer():
     analyzer = {}
     analyzer["accidents"] = lt.newList("SINGLE_LINKED", compareIds)
-    analyzer["dateIndex"] = om.newMap(omaptype="RBT", comparefunction=compareDates)
+    analyzer["dateIndex"] = om.newMap(
+        omaptype="RBT", comparefunction=compareDates)
     return analyzer
 
 
@@ -183,6 +184,24 @@ def total_accidentes_entre_fechas(analyzer, initial_date, final_date):
 
     return tot
 
+
+def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
+    def inlat(lat, lat0, gr): return lat0-gr <= lat <= lat0+gr
+    def inlon(lon, lon0, gr): return lon0-gr <= lon <= lon0+gr
+    mp = m.newMap(comparefunction=lambda x, y: 0 if x == y['key'] else 1)
+    cont = 0
+    for lt_next in travel(analyzer['accidents']):
+        if inlat(float(lt_next['Start_Lat']), latitude, grades) and inlon(float(lt_next['Start_Lng']), longitude, grades):
+            dt = lt_next['Start_Time'][:lt_next['Start_Time'].find(' ')]
+            cont += 1
+            m.put(mp, dt, cont)
+    maxDate = None
+    mx = 0
+    for i in travel(m.keySet(mp)):
+        if (False if m.get(mp, i) is None else m.get(mp, i)['value'] > mx):
+            mx = int(m.get(mp, i)['value'])
+            maxDate = i
+    return maxDate, cont
 
 # ==============================
 # Funciones de Comparacion

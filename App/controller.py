@@ -135,3 +135,8 @@ def total_accidentes(*args, **kwargs):
         final_date = datetime.datetime.strptime(args[2], "%Y-%m-%d")
 
     return model.total_accidentes_entre_fechas(analyzer, initial_date, final_date)
+
+
+def R6(analyzer, latitude, longitude, ratio):
+    ratio /= 69.4
+    return model.R6_AccidentesZonaGeografica(analyzer, latitude, longitude, ratio)
