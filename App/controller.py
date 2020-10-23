@@ -50,17 +50,18 @@ def init():
 #  de datos en los modelos
 # ___________________________________________________
 
+
 def loadData(analyzer, accidentsfile):
     """
     Carga los datos de los archivos CSV en el modelo
     """
     accidentsfile = cf.data_dir + accidentsfile
-    input_file = csv.DictReader(
-        open(accidentsfile, encoding="utf-8"), delimiter=",")
+    input_file = csv.DictReader(open(accidentsfile, encoding="utf-8"), delimiter=",")
     for accident in input_file:
         model.addAccident(analyzer, accident)
 
     return analyzer
+
 
 # ___________________________________________________
 #  Funciones para consultas
@@ -104,8 +105,9 @@ def maxKey(analyzer):
 
 def R3(analyzer, initialDate, finalDate):
     try:
-        initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+        initialDate = datetime.datetime.strptime(initialDate, "%Y-%m-%d")
     except:
         pass
-    finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
-    return model.R3_AccidentesEntreFechas(analyzer, initialDate, finalDate)
+
+    finalDate = datetime.datetime.strptime(finalDate, "%Y-%m-%d")
+    return model.total_accidentes_entre_fechas(analyzer, initialDate, finalDate)
