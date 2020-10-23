@@ -152,6 +152,29 @@ def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):
     return tot
 
 
+def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
+    ite = it.newIterator(analyzer['accidents'])
+    inlat = lambda lat, lat0, gr: lat0-gr <= lat <= lat0+gr
+    inlon = lambda lon, lon0, gr: lon0-gr <= lon <= lon0+gr
+    mp = m.newMap(comparefunction=lambda x, y: x > y)
+    cont = 0
+    while it.hasNext(ite):
+        lt_next = it.next(ite)
+        # print("-"*50)
+        # print(
+        # f"\t{latitude-grades} <= {float(lt_next['Start_Lat'])} <= {latitude+grades}? -> {inlat(float(lt_next['Start_Lat']), latitude, grades)}")
+        # print(
+        # f"\t{longitude-grades} <= {float(lt_next['Start_Lng'])} <= {longitude+grades}? -> {inlat(float(lt_next['Start_Lng']), longitude, grades)}")
+        # print("-"*50)
+        if inlat(float(lt_next['Start_Lat']), latitude, grades) and inlon(float(lt_next['Start_Lng']), longitude, grades):
+            dt = lt_next['Start_Time'][:lt_next['Start_Time'].find(' ')]
+            cont += 1
+            m.put(mp, dt, cont)
+    keys = it.newIterator(m.keySet(mp))
+    maxDate = max(keys, key=lambda x: 0 if m.get(
+        mp, x) is None else m.get(mp, x))
+    return maxDate, cont
+
 # ==============================
 # Funciones de Comparacion
 # ==============================

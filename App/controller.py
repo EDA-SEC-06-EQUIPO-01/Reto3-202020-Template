@@ -109,3 +109,8 @@ def R3(analyzer, initialDate, finalDate):
         pass
     finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
     return model.R3_AccidentesEntreFechas(analyzer, initialDate, finalDate)
+
+
+def R6(analyzer, latitude, longitude, ratio):
+    ratio /= 69.4
+    return model.R6_AccidentesZonaGeografica(analyzer, latitude, longitude, ratio)
