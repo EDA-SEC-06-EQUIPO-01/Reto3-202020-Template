@@ -86,8 +86,10 @@ while True:
         print("\nRequerimiento No 1 del reto 3: \n")
         impDate = input(
             "Digite la fecha de interés; recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        impDate_p1 = impDate[:-2] + (str(int(impDate[-2:])+1) if int(
+            impDate[-2:])+1 >= 10 else "0"+str(int(impDate[-2:])+1))
         print(
-            f"Ocurrieron {controller.R1(cont, impDate)} accidentes en la fecha {impDate}")
+            f"Ocurrieron {controller.R3(cont, impDate, impDate_p1)} accidentes en la fecha {impDate}")
 
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: \n")

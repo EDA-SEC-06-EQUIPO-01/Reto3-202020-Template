@@ -139,15 +139,7 @@ def maxKey(analyzer):
     return om.maxKey(analyzer['dateIndex'])
 
 
-def R1_AccidentesEnFecha(analyzer, impDate):
-    lst = om.get(analyzer['dateIndex'], impDate)
-
-    try:
-        return lt.size(lst)
-    except:
-        return 0
-
-# El R2 utiliza el R3.
+# En el R1 y R2 se utiliza el R3.
 
 
 def R3_AccidentesEntreFechas(analyzer, iniDate, finalDate):

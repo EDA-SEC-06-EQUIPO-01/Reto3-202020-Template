@@ -54,7 +54,7 @@ def loadData(analyzer, accidentsfile):
     """
     Carga los datos de los archivos CSV en el modelo
     """
-    accidentsfile = cf.data_dir +accidentsfile
+    accidentsfile = cf.data_dir + accidentsfile
     input_file = csv.DictReader(
         open(accidentsfile, encoding="utf-8"), delimiter=",")
     for accident in input_file:
@@ -100,11 +100,6 @@ def maxKey(analyzer):
     La mayor llave del arbol
     """
     return model.maxKey(analyzer)
-
-
-def R1(analyzer, impDate):
-    impDate = datetime.datetime.strptime(impDate, '%Y-%m-%d')
-    return model.R1_AccidentesEnFecha(analyzer, impDate)
 
 
 def R3(analyzer, initialDate, finalDate):
