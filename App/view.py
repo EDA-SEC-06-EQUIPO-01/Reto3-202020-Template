@@ -38,7 +38,7 @@ operación seleccionada.
 # ___________________________________________________
 
 
-accfile = 'us_accidents_dis_2016.csv'
+accfile = 'us_accidents_small.csv'
 
 # ___________________________________________________
 #  Menu principal

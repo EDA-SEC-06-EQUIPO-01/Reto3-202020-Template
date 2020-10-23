@@ -966,7 +966,7 @@ def deleteMaxTree(root):
             return None
 
         if ((not isRed(root['right'])) and
-           ((not isRed(root['right']['left'])))):
+                ((not isRed(root['right']['left'])))):
 
             root = moveRedRight(root)
 
@@ -1061,7 +1061,7 @@ def removeKey(root, key, cmpfunction):
     try:
         if (cmpfunction(key, root['key']) < 0):
             if ((not isRed(root['left'])) and
-               (not isRed(root['left']['left']))):
+                    (not isRed(root['left']['left']))):
                 root = moveRedLeft(root)
             root['left'] = removeKey(root['left'], key, cmpfunction)
         else:
@@ -1069,11 +1069,11 @@ def removeKey(root, key, cmpfunction):
                 root = rotateRight(root)
 
             if ((cmpfunction(key, root['key']) == 0) and
-               (root['right'] is None)):
+                    (root['right'] is None)):
                 return None
 
             if ((not isRed(root['right']) and
-               (not isRed(root['right']['left'])))):
+                 (not isRed(root['right']['left'])))):
                 root = moveRedRight(root)
 
             if ((cmpfunction(key, root['key']) == 0)):
