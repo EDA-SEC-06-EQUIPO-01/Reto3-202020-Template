@@ -68,7 +68,9 @@ Menu principal
 while True:
     printMenu()
     inputs = input("Seleccione una opción para continuar\n>")
-
+    if inputs == "":
+        print("Opción no válida...")
+        continue
     if int(inputs[0]) == 1:
         print("\nInicializando....")
         # cont es el controlador que se usará de acá en adelante

@@ -119,13 +119,8 @@ def total_accidentes(*args, **kwargs):
     if len(kwargs) > 0:
         if kwargs.get("next_day") == True:
             initial_date = datetime.datetime.strptime(args[1], "%Y-%m-%d")
-
-            tmp = args[1].split("-")
-            tmp[-1] = str(int(tmp[-1]) + 1)
-            final_date = "-".join(tmp)
-
-            final_date = datetime.datetime.strptime(final_date, "%Y-%m-%d")
-
+            final_date = initial_date + datetime.timedelta(days=1)
+            print(str(final_date))
         elif kwargs.get("from_begining") == True:
             initial_date = minKey(analyzer)
             final_date = datetime.datetime.strptime(args[1], "%Y-%m-%d")
