@@ -117,7 +117,11 @@ while True:
 
     elif int(inputs[0]) == 6:
         print("\nRequerimiento No 4 del reto 3: \n")
-
+        fechaIni = input("Digite la fecha inicial, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t" )
+        fechaFin = input("Digite la fecha final, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        print(f"El estado y la fecha con más accidentes fueron: {controller.R4_EstadoMasAcc(cont, fechaIni, fechaFin)}  entre la fecha {fechaIni} y la fecha {fechaFin}")
+    
+    
     elif int(inputs[0]) == 7:
         print("\nRequerimiento No 5 del reto 3: \n")
 

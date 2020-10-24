@@ -220,6 +220,38 @@ def R6_AccidentesZonaGeografica(analyzer, latitude, longitude, grades):
             maxDate = i
     return maxDate, cont
 
+def R4_EstadoMasAcc (analyzer, fechaIni, fechaFin):
+    lsta = om.values(analyzer['dateIndex'],fechaIni, fechaFin)
+    ite  = it.newIterator(lsta)
+    entreFech = 0
+    while it.hasNext(ite):
+        lt_next = it.next(ite)['lstaccidents']
+        entreFech += lt.size(lt_next)
+    #estado con más accidentes
+    estadoMas= None
+    estados = travel(lsta, ['State'])
+    contEst = {}
+    for i in estados:
+        if (i in contEst):
+            contEst[i] += 1 
+        else :
+            contEst[i] = 1
+    mayorV = max(contEst.keys)
+    estadoMas = mayorV.getValue
+    #fecha con más accidentes
+    fechaMas= None
+    fech = travel(lsta, ['Start_Time'])
+    contFech = {}
+    for i in fech:
+        if (i in contFech):
+            contFech[i] += 1 
+        else :
+            contFech[i] = 1
+    mayorValue = max(contFech.keys)
+    fechaMas = mayorValue.getValue
+    
+    return (estadoMas,fechaMas)
+
 # ==============================
 # Funciones de Comparacion
 # ==============================
