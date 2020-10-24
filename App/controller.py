@@ -56,8 +56,7 @@ def loadData(analyzer, accidentsfile):
     Carga los datos de los archivos CSV en el modelo
     """
     accidentsfile = cf.data_dir + accidentsfile
-    input_file = csv.DictReader(
-        open(accidentsfile, encoding="utf-8"), delimiter=",")
+    input_file = csv.DictReader(open(accidentsfile, encoding="utf-8"), delimiter=",")
     for accident in input_file:
         model.addAccident(analyzer, accident)
 
@@ -102,6 +101,12 @@ def maxKey(analyzer):
     La mayor llave del arbol
     """
     return model.maxKey(analyzer)
+
+
+def total_horas(analyzer, initial_hour, final_hour):
+    initial_hour = datetime.datetime.strptime(initial_hour, "%H:%M:%S")
+    final_hour = datetime.datetime.strptime(final_hour, "%H:%M:%S")
+    return model.total_horas(analyzer, initial_hour, final_hour)
 
 
 def total_accidentes(*args, **kwargs):

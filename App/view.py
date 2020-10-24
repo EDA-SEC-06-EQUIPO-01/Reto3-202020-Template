@@ -117,23 +117,41 @@ while True:
 
     elif int(inputs[0]) == 6:
         print("\nRequerimiento No 4 del reto 3: \n")
-        fechaIni = input("Digite la fecha inicial, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t" )
-        fechaFin = input("Digite la fecha final, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
-        print(f"El estado y la fecha con más accidentes fueron: {controller.R4_EstadoMasAcc(cont, fechaIni, fechaFin)}  entre la fecha {fechaIni} y la fecha {fechaFin}")
-    
-    
+        fechaIni = input(
+            "Digite la fecha inicial, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
+        fechaFin = input(
+            "Digite la fecha final, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t"
+        )
+        print(
+            f"El estado y la fecha con más accidentes fueron: {controller.R4_EstadoMasAcc(cont, fechaIni, fechaFin)}  entre la fecha {fechaIni} y la fecha {fechaFin}"
+        )
+
     elif int(inputs[0]) == 7:
         print("\nRequerimiento No 5 del reto 3: \n")
+
+        initial_hour = input(
+            "Digite la hora inicial, recuerde que el formato de la fecha debe ser de 24 horas\n\tHH:MM:SS\n\t"
+        )
+        final_hour = input(
+            "Digite la hora inicial, recuerde que el formato de la fecha debe ser de 24 horas\n\tHH:MM:SS\n\t"
+        )
+        
+        print(f"{controller.total_horas(cont, initial_hour, final_hour)}")
 
     elif int(inputs[0]) == 8:
         print("\nRequerimiento No 6 del reto 3: \n")
         latitude = float(input("Digite la LATITUD del punto central:\n\t"))
         longitude = float(input("Digite la LONGITUD del punto central:\n\t"))
-        ratio = float(input(
-            "Digite el RADIO (en millas) alrededor del centro establecido;\nTenga en cuenta que aproximadamente 1° = 69.4 millas:\n\t"))
+        ratio = float(
+            input(
+                "Digite el RADIO (en millas) alrededor del centro establecido;\nTenga en cuenta que aproximadamente 1° = 69.4 millas:\n\t"
+            )
+        )
         ans = controller.R6(cont, latitude, longitude, ratio)
         print(
-            f"El día en el que más se presentaron casos dentro del rango fue un {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
+            f"El día en el que más se presentaron casos dentro del rango fue un {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango."
+        )
 
     else:
         sys.exit(0)
