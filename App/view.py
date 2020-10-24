@@ -68,7 +68,9 @@ Menu principal
 while True:
     printMenu()
     inputs = input("Seleccione una opción para continuar\n>")
-
+    if inputs == "":
+        print("Opción no válida...")
+        continue
     if int(inputs[0]) == 1:
         print("\nInicializando....")
         # cont es el controlador que se usará de acá en adelante
@@ -115,7 +117,11 @@ while True:
 
     elif int(inputs[0]) == 6:
         print("\nRequerimiento No 4 del reto 3: \n")
-
+        fechaIni = input("Digite la fecha inicial, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t" )
+        fechaFin = input("Digite la fecha final, recuerde que el formato de la fecha debe ser:\n\tYYYY-MM-DD\n\t")
+        print(f"El estado y la fecha con más accidentes fueron: {controller.R4_EstadoMasAcc(cont, fechaIni, fechaFin)}  entre la fecha {fechaIni} y la fecha {fechaFin}")
+    
+    
     elif int(inputs[0]) == 7:
         print("\nRequerimiento No 5 del reto 3: \n")
 
@@ -127,7 +133,7 @@ while True:
             "Digite el RADIO (en millas) alrededor del centro establecido;\nTenga en cuenta que aproximadamente 1° = 69.4 millas:\n\t"))
         ans = controller.R6(cont, latitude, longitude, ratio)
         print(
-            f"El día en el que más se presentaron casos dentro del rango fue {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
+            f"El día en el que más se presentaron casos dentro del rango fue un {ans[0]}.\nEn total ocurrieron {ans[1]} casos dentro del rango.")
 
     else:
         sys.exit(0)
